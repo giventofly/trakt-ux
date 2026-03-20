@@ -11,8 +11,8 @@
  * should be performed server-side so the secret is never exposed.
  */
 const CONFIG = {
-  CLIENT_ID: "YOUR_CLIENT_ID",
-  CLIENT_SECRET: "YOUR_CLIENT_SECRET",
+  CLIENT_ID: "8e72d88c3c50e600eabf4ef4dc86fa88a45553209bcd309eb8ae8dc26af8675a",
+  CLIENT_SECRET: "32d4a55a9dad564cf9dc29734fe4df8ae7fa416ee86e3c7598fc1543e8b820b0",
   REDIRECT_URI: window.location.origin + window.location.pathname,
   API_BASE: "https://api.trakt.tv",
   AUTH_URL: "https://trakt.tv/oauth/authorize",
