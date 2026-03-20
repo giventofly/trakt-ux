@@ -50,6 +50,33 @@ const TraktAPI = (() => {
   }
 
   /**
+   * Generic POST helper.
+   *
+   * @param {string} path   API path.
+   * @param {object} body   JSON body to send.
+   * @param {boolean} [auth] Whether to attach the user's access token.
+   * @returns {Promise<any>}
+   */
+  async function post(path, body = {}, auth = true) {
+    const url = `${CONFIG.API_BASE}${path}`;
+    const accessToken = auth ? await Auth.getValidAccessToken() : null;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: buildHeaders(accessToken),
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`API error ${response.status}: ${text}`);
+    }
+
+    if (response.status === 204) return {};
+    return response.json();
+  }
+
+  /**
    * Fetch the authenticated user's profile.
    *
    * @returns {Promise<object>}
@@ -88,5 +115,22 @@ const TraktAPI = (() => {
     return get("/users/me/history/shows", { limit }, true);
   }
 
-  return { getProfile, getWatchedShows, getShowProgress, getHistory };
+  /**
+   * Add an episode to the user's watch history (mark as watched).
+   *
+   * @param {number} episodeTraktId  Trakt episode ID.
+   * @returns {Promise<object>}
+   */
+  function markEpisodeWatched(episodeTraktId) {
+    return post("/sync/history", {
+      episodes: [
+        {
+          watched_at: new Date().toISOString(),
+          ids: { trakt: episodeTraktId },
+        },
+      ],
+    });
+  }
+
+  return { getProfile, getWatchedShows, getShowProgress, getHistory, markEpisodeWatched };
 })();
