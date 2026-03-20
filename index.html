@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Trakt UX – view your Trakt.tv watch progress" />
+  <title>Trakt UX</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header>
+    <a class="logo" href="/" aria-label="Trakt UX home">
+      <!-- Trakt-style play icon -->
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" opacity="0.25"/>
+        <polygon points="10,8 17,12 10,16"/>
+      </svg>
+      Trakt<span style="color:#e0e0e0">UX</span>
+    </a>
+
+    <!-- Logout button (only shown in dashboard) -->
+    <button id="logout-btn" class="btn btn-ghost" hidden>Logout</button>
+  </header>
+
+  <main>
+    <!-- ── Status bar (shared across all sections) ─────────────── -->
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <!-- ── Login ────────────────────────────────────────────────── -->
+    <section id="login-section" class="section" hidden>
+      <div class="login-card">
+        <h2>Welcome to Trakt UX</h2>
+        <p>
+          Connect your Trakt.tv account to see your watch progress,
+          episode counts, and recently watched shows.
+        </p>
+        <button id="login-btn" class="btn btn-primary">
+          <!-- Trakt logo-ish icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <polygon points="10,8 17,12 10,16"/>
+          </svg>
+          Login with Trakt
+        </button>
+      </div>
+    </section>
+
+    <!-- ── Loading ───────────────────────────────────────────────── -->
+    <section id="loading-section" class="section" hidden>
+      <div class="spinner" role="status" aria-label="Loading"></div>
+      <p class="loading-text">Please wait…</p>
+    </section>
+
+    <!-- ── Dashboard ────────────────────────────────────────────── -->
+    <section id="dashboard-section" class="section" hidden>
+      <!-- User profile -->
+      <div id="profile"></div>
+
+      <!-- Show progress list -->
+      <div class="dashboard-toolbar">
+        <h2>Watch Progress</h2>
+      </div>
+      <div id="progress-list" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <!-- Scripts loaded in dependency order -->
+  <script src="config.js"></script>
+  <script src="auth.js"></script>
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
